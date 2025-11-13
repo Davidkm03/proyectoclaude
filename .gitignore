@@ -1,0 +1,26 @@
+# Archivos de datos
+data/*.json
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de caché
+*.cache
+
+# Backups
+*.bak
+*.backup

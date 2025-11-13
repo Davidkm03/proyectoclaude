@@ -1,0 +1,59 @@
+# Sistema de Gestión Hospitalaria - Configuración Apache
+
+# Habilitar reescritura de URLs
+RewriteEngine On
+
+# Prevenir acceso directo a archivos de configuración
+<FilesMatch "^(config\.php|\.gitignore)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Proteger archivos JSON
+<FilesMatch "\.json$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permitir acceso desde controladores
+<If "%{REQUEST_URI} =~ m#^/controllers/.*\.php$#">
+    Order allow,deny
+    Allow from all
+</If>
+
+# Configuración de errores
+ErrorDocument 404 /index.php
+ErrorDocument 403 /index.php
+
+# Caché de archivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+</IfModule>
+
+# Compresión GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Seguridad - Ocultar versión de PHP
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# Seguimiento de archivos por defecto
+DirectoryIndex index.php index.html
